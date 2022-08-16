@@ -2,11 +2,8 @@ package com.payconiq.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +33,7 @@ public class StockController {
 	public ResponseEntity<List<Stock>> getAll( @RequestParam(required = false) Integer page ) {
 		log.info("Getting all Stock Details present in DB");
 		try {
-			List<Stock> stocksList = stockService.getAll(page);
+			List<Stock> stocksList = stockService.getAll(page).toList();
 			return ResponseEntity.ok(stocksList);
 		} catch (Exception ex) {
 			log.debug("Error while retriving data from DB ", ex);
@@ -44,7 +41,7 @@ public class StockController {
 		}
 	}
 
-	// Get Stock Details for display on UI
+	// Get Stock Details for particular id
 	@GetMapping("/{id}")
 	public ResponseEntity<Stock> getStock(@PathVariable int id) {
 		log.info("Getting Stock Details present in DB for id :{}", id);
@@ -57,7 +54,7 @@ public class StockController {
 		}
 	}
 
-	// Get Stock Details for display on UI
+	// Create new Stock 
 	@PostMapping
 	public ResponseEntity<Stock> createStock(@RequestBody Stock stock) {
 		log.info("Creating Stock Details present in DB");

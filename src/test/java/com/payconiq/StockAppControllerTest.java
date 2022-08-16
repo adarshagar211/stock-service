@@ -19,6 +19,8 @@ import org.springframework.boot.test.autoconfigure.json.AutoConfigureJson;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -45,7 +47,7 @@ public class StockAppControllerTest {
 
 	@Test
 	public void testgetAllStock() throws Exception {
-		List<Stock> stocks = List.of(Stock.builder().id(1).name("TESTSTOCK").currentPrice(12.44).lastUpdate(new Date()).build());
+		Page<Stock> stocks = new PageImpl<>(List.of(Stock.builder().id(1).name("TESTSTOCK").currentPrice(12.44).lastUpdate(new Date()).build()));
 		when(stockService.getAll(Mockito.any())).thenReturn(stocks);
 		this.mockMvc.perform(get("/api/stocks"))
 		            .andDo(print())
