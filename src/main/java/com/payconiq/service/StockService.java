@@ -1,20 +1,20 @@
 package com.payconiq.service;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
 import org.springframework.stereotype.Service;
-import com.payconiq.model.Stock;
+import com.payconiq.dto.StockDto;
 
 @Service
 public interface StockService {
 
-	public Page<Stock> getAll(Integer page);
+	public List<StockDto> getAll(int pageNo, int pageSize, String sortBy, String sortDir);
 
-	public Stock getStock(int id);
+	public StockDto getStock(int id);
 
-	public Stock createStock(Stock stock);
+	public StockDto createStock(StockDto stock);
 
 	public void deleteStock(int id);
 
-	public Stock updateStock(Stock stock, int id);
+	public StockDto updateStock(StockDto stock, int id);
 
 }

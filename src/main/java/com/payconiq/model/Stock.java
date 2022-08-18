@@ -12,10 +12,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,28 +23,21 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name="stocks_tbl")
-@JsonAutoDetect(getterVisibility=Visibility.NONE)
 public class Stock implements Serializable{
 
 	private static final long serialVersionUID = -7285754929128206418L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonProperty("id")
 	private Integer id ;
 	
-	@Column
-	@JsonProperty("name")
-	@NotEmpty
+	@Column(nullable = false , unique = true)
 	private String name ;
 	
-	@Column
-	@JsonProperty("currentPrice")
-	@NotNull
+	@Column(nullable=false)
 	private Double currentPrice;
 	
-	@Column
-	@JsonProperty("lastUpdate")
+	@Column(nullable=false)
 	private Date lastUpdate;
 	
 }

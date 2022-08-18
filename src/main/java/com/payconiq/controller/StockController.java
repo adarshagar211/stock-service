@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.payconiq.dto.StockDto;
 import com.payconiq.model.Stock;
 import com.payconiq.service.StockService;
 
@@ -22,18 +24,23 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/api/stocks")
 public class StockController {
 
 	@Autowired
 	private StockService stockService;
 
-	// Get All Stock Details for display on UI
+	// Get All Stock Details
 	@GetMapping
-	public ResponseEntity<List<Stock>> getAll( @RequestParam(required = false) Integer page ) {
+	public ResponseEntity<List<StockDto>> getAll( @RequestParam(value = "pageNo", defaultValue ="0", required = false) int pageNo,
+                                               @RequestParam(value = "pageSize", defaultValue ="10", required = false) int pageSize,
+                                               @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
+                                               @RequestParam(value = "sortDir", defaultValue ="asc", required = false) String sortDir ){
+		
 		log.info("Getting all Stock Details present in DB");
 		try {
-			List<Stock> stocksList = stockService.getAll(page).toList();
+			List<StockDto> stocksList = stockService.getAll(pageNo, pageSize, sortBy, sortDir);
 			return ResponseEntity.ok(stocksList);
 		} catch (Exception ex) {
 			log.debug("Error while retriving data from DB ", ex);
@@ -43,10 +50,10 @@ public class StockController {
 
 	// Get Stock Details for particular id
 	@GetMapping("/{id}")
-	public ResponseEntity<Stock> getStock(@PathVariable int id) {
+	public ResponseEntity<StockDto> getStock(@PathVariable int id) {
 		log.info("Getting Stock Details present in DB for id :{}", id);
 		try {
-			Stock stock = stockService.getStock(id);
+			StockDto stock = stockService.getStock(id);
 			return ResponseEntity.ok(stock);
 		} catch (Exception ex) {
 			log.debug("Error while retriving data from DB ", ex);
@@ -56,10 +63,10 @@ public class StockController {
 
 	// Create new Stock 
 	@PostMapping
-	public ResponseEntity<Stock> createStock(@RequestBody Stock stock) {
-		log.info("Creating Stock Details present in DB");
+	public ResponseEntity<StockDto> createStock(@RequestBody StockDto stockDto) {
+		log.info("Creating Stock in DB with id {}", stockDto.getName());
 		try {
-			stock = stockService.createStock(stock);
+			StockDto stock = stockService.createStock(stockDto);
 			return ResponseEntity.status(HttpStatus.CREATED).body(stock);
 		} catch (Exception ex) {
 			log.debug("Error while retriving data from DB ", ex);
@@ -70,7 +77,7 @@ public class StockController {
 	// Delete Stock Details for particular id
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteStock(@PathVariable int id) {
-		log.info("Delete Stock Details present in DB");
+		log.info("Delete Stock present in DB with id {}", id);
 		try {
 			stockService.deleteStock(id);
 			return ResponseEntity.ok("Stock deleted");
@@ -82,10 +89,10 @@ public class StockController {
 
 	// Update Stock Details for particular id
 	@PatchMapping("/{id}")
-	public ResponseEntity<Stock> updateStock(@RequestBody Stock stock, @PathVariable int id) {
-		log.info("Update Stock Details present in DB");
+	public ResponseEntity<StockDto> updateStock(@RequestBody StockDto stockDto, @PathVariable int id) {
+		log.info("Update Stock present in DB with id : {}" , id);
 		try {
-			stockService.updateStock(stock,id);
+			StockDto stock = stockService.updateStock(stockDto,id);
 			return ResponseEntity.ok(stock);
 		} catch (Exception ex) {
 			log.debug("Error while retriving data from DB ", ex);
