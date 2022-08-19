@@ -72,6 +72,28 @@ public class StockAppControllerTest {
 	}
 	
 	@Test
+	public void testcreateInvalidStockName() throws Exception {
+		StockDto stockDTO = StockDto.builder().currentPrice(12.44).build();
+		when(stockService.createStock(Mockito.any())).thenReturn(stockDTO);
+		this.mockMvc.perform(post("/api/stocks").contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE)
+				     .content(objectMapper.writeValueAsString(stockDTO)))
+		            .andDo(print())
+		            .andExpect(status().is4xxClientError())
+		            .andExpect(jsonPath("$.name").value("Stock name cannot be empty or blank"));
+	}
+	
+	@Test
+	public void testcreateInvalidStockPrice() throws Exception {
+		StockDto stockDTO = StockDto.builder().name("TESTSTOCK").build();
+		when(stockService.createStock(Mockito.any())).thenReturn(stockDTO);
+		this.mockMvc.perform(post("/api/stocks").contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE)
+				     .content(objectMapper.writeValueAsString(stockDTO)))
+		            .andDo(print())
+		            .andExpect(status().is4xxClientError())
+		            .andExpect(jsonPath("$.currentPrice").value("Stock price cannot be null"));
+	}
+	
+	@Test
 	public void testupdateStock() throws Exception {
 		StockDto stockDTO = StockDto.builder().name("TESTSTOCK").currentPrice(12.44).build();
 		when(stockService.updateStock(Mockito.any(),Mockito.anyInt())).thenReturn(stockDTO);

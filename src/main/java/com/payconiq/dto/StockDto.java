@@ -23,11 +23,11 @@ public class StockDto implements Serializable{
 	private Integer id ;
 	
 	@JsonProperty("name")
-	@NotBlank
+	@NotBlank(message = "Stock name cannot be empty or blank")
 	private String name ;
 	
 	@JsonProperty("currentPrice") 
-	@NotNull
+	@NotNull(message = "Stock price cannot be null")
 	private Double currentPrice;
 	
 	@JsonProperty("lastUpdate")

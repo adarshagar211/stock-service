@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -38,6 +40,7 @@ public class Stock implements Serializable{
 	private Double currentPrice;
 	
 	@Column(nullable=false)
+	@Temporal(TemporalType.DATE)
 	private Date lastUpdate;
 	
 }

@@ -2,6 +2,8 @@ package com.payconiq.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.payconiq.dto.StockDto;
-import com.payconiq.model.Stock;
 import com.payconiq.service.StockService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,70 +35,44 @@ public class StockController {
 	// Get All Stock Details
 	@GetMapping
 	public ResponseEntity<List<StockDto>> getAll( @RequestParam(value = "pageNo", defaultValue ="0", required = false) int pageNo,
-                                               @RequestParam(value = "pageSize", defaultValue ="10", required = false) int pageSize,
-                                               @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
-                                               @RequestParam(value = "sortDir", defaultValue ="asc", required = false) String sortDir ){
-		
+                                                  @RequestParam(value = "pageSize", defaultValue ="10", required = false) int pageSize,
+                                                  @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
+                                                  @RequestParam(value = "sortDir", defaultValue ="asc", required = false) String sortDir){		
 		log.info("Getting all Stock Details present in DB");
-		try {
-			List<StockDto> stocksList = stockService.getAll(pageNo, pageSize, sortBy, sortDir);
-			return ResponseEntity.ok(stocksList);
-		} catch (Exception ex) {
-			log.debug("Error while retriving data from DB ", ex);
-			return ResponseEntity.internalServerError().build();
-		}
+		List<StockDto> stocksList = stockService.getAll(pageNo, pageSize, sortBy, sortDir);
+		return ResponseEntity.ok(stocksList);
 	}
 
 	// Get Stock Details for particular id
 	@GetMapping("/{id}")
 	public ResponseEntity<StockDto> getStock(@PathVariable int id) {
 		log.info("Getting Stock Details present in DB for id :{}", id);
-		try {
-			StockDto stock = stockService.getStock(id);
-			return ResponseEntity.ok(stock);
-		} catch (Exception ex) {
-			log.debug("Error while retriving data from DB ", ex);
-			return ResponseEntity.internalServerError().build();
-		}
+		StockDto stock = stockService.getStock(id);
+		return ResponseEntity.ok(stock);
 	}
 
 	// Create new Stock 
 	@PostMapping
-	public ResponseEntity<StockDto> createStock(@RequestBody StockDto stockDto) {
+	public ResponseEntity<StockDto> createStock(@Valid @RequestBody StockDto stockDto) {
 		log.info("Creating Stock in DB with id {}", stockDto.getName());
-		try {
-			StockDto stock = stockService.createStock(stockDto);
-			return ResponseEntity.status(HttpStatus.CREATED).body(stock);
-		} catch (Exception ex) {
-			log.debug("Error while retriving data from DB ", ex);
-			return ResponseEntity.internalServerError().build();
-		}
+		StockDto stock = stockService.createStock(stockDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(stock);
 	}
 
 	// Delete Stock Details for particular id
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteStock(@PathVariable int id) {
 		log.info("Delete Stock present in DB with id {}", id);
-		try {
-			stockService.deleteStock(id);
-			return ResponseEntity.ok("Stock deleted");
-		} catch (Exception ex) {
-			log.debug("Error while retriving data from DB ", ex);
-			return ResponseEntity.internalServerError().build();
-		}
+		stockService.deleteStock(id);
+		return ResponseEntity.ok("Stock deleted");
 	}
 
 	// Update Stock Details for particular id
 	@PatchMapping("/{id}")
 	public ResponseEntity<StockDto> updateStock(@RequestBody StockDto stockDto, @PathVariable int id) {
 		log.info("Update Stock present in DB with id : {}" , id);
-		try {
-			StockDto stock = stockService.updateStock(stockDto,id);
-			return ResponseEntity.ok(stock);
-		} catch (Exception ex) {
-			log.debug("Error while retriving data from DB ", ex);
-			return ResponseEntity.internalServerError().build();
-		}
+		StockDto stock = stockService.updateStock(stockDto,id);
+		return ResponseEntity.ok(stock);
 	}
 
 }
