@@ -1,24 +1,42 @@
-# Stock Application
+# Stock Service - Microservice
 
-An example of a RESTful WebServer developed using Spring & SpringBoot.
+Stock Service - Microservice production ready Springboot Microservice built using Spring 5 / Java 11 . Its a simple microservice which performs CRUD operations on stocks data through REST endpoints .
 
-This simple server acts a Stocks Backend REST Application - it will get/create/delete/add details of a stocks .
-
-[![Build Status](https://travis-ci.org/codecentric/springboot-sample-app.svg?branch=master)](https://travis-ci.org/codecentric/springboot-sample-app)
-[![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-
-Minimal [Spring Boot](http://projects.spring.io/spring-boot/) sample app.
+![Build Status](https://travis-ci.org/codecentric/springboot-sample-app.svg?branch=master) ![License](http://img.shields.io/:license-apache-blue.svg)
 
 ## Requirements
 
 For building and running the application you need:
  
-Java JDK 11
-Maven 3+ or higher
-Git
-Clone the project and use Maven to build the server
+- Java 11
+- Spring 5
+- Maven 3+ or higher
+- Git
 
-$ mvn clean install
+## About the project
+ 
+ Its created as a SpringBoot production ready application which runs on embedded Tomcat server. This project can simply be imported as maven project and can run on Eclipse or IntelliJ or run directly using below command. 
+ 
+ ```shell
+mvn spring-boot:run
+```
+It has external dependencies of PostGRE DB connection which should be running on localhost for starting this microservice. 
+
+ Five APi's built : 
+ - Get all stocks            -  GET /api/stocks
+ - Add a newstock            - POST /api/stocks
+ - Get a particular stock    - GET /api/stocks/{id}
+ - Delete a particular stock - DELETE /api/stocks/{id}
+ - Update a particular stock - PATCH /api/stocks/{id}
+ 
+Added Unit test cases on service and controller layer for code coverage
+
+API thows Exception Error  : 
+- Incase of validation failure on server - Response status is 400 Bad Request. 
+- Incase of data not present - Response status is 404 Not Found. 
+- Incase of unexpected error on server - Response status is 500 Internal Server Error
+
+Please check swagger URL for testing and more documentation on API's
 
 ## Running test cases
 
@@ -34,9 +52,9 @@ mvn clean test
 
 ## Running the application locally
 
-Prerequisite : Existing PostGres running on "localhost", portno "5432", database "postgres" with username :postgres & password: password
+Prerequisite : Either run application on docker engine using script or have postgres db running on "localhost" with properties in project
 
-There are several ways to run a Spring Boot application on your local machine. One way is to execute the `main` method in the `com.payconiq.StocksApplication` class from your IDE.
+To run a Spring Boot application on your local machine you can execute `main` method in the `com.payconiq.StocksApplication` class from your IDE.
 
 Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html) like so:
 
@@ -44,9 +62,7 @@ Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/
 mvn spring-boot:run
 ```
 
-## Docker
-
-## Running the application on docker engine
+## Run on docker
 
 Install docker engine on your local system and run below script in stocks-api/ folder to start the application
 
@@ -62,11 +78,15 @@ Once Application is up and running on docker or on jvm , check the API documenta
 Swagger URL  :  http://localhost:8080/docs
 Swagger URL  :  http://localhost:8080/swagger-ui/index.html
 ```
-  
+
+## Scope for Improvements
+
+We could add spring security like token, OAuth, make it reactive, add more test cases, add caching and feature wise make application more dynamic .
+
 ### Contact
 
 Adarsh Agarwal - adarsh.agar211@gmail.com
 
 ## Copyright
 
-Released under the Apache License 2.0. See the [LICENSE](https://github.com/codecentric/springboot-sample-app/blob/master/LICENSE) file.
+Released under the Apache License 2.0. See the [LICENSE] file.
