@@ -1,4 +1,4 @@
-package com.payconiq.model;
+package com.payconiq.domain;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,8 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Version;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +32,10 @@ public class Stock implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id ;
 	
+	@Version
+	@Column(name = "VERSION")
+	private long version;
+	
 	@Column(nullable = false , unique = true)
 	private String name ;
 	
@@ -40,7 +43,7 @@ public class Stock implements Serializable{
 	private Double currentPrice;
 	
 	@Column(nullable=false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdate;
 	
 }

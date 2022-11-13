@@ -19,8 +19,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import com.payconiq.domain.Stock;
 import com.payconiq.dto.StockDto;
-import com.payconiq.model.Stock;
 import com.payconiq.repository.StockRepository;
 import com.payconiq.service.impl.StockServiceImpl;
 
