@@ -1,4 +1,4 @@
-package com.payconiq.test;
+package com.stock.test;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -11,7 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -22,10 +23,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.payconiq.controller.StockController;
-import com.payconiq.dto.StockDto;
-import com.payconiq.service.StockService;
+import com.stock.controller.StockController;
+import com.stock.dto.StockDto;
+import com.stock.service.StockService;
 
 @WebMvcTest(controllers = {StockController.class})
 @AutoConfigureMockMvc
@@ -42,7 +44,7 @@ public class StockAppControllerTest {
 
 	@Test
 	public void testgetAllStock() throws Exception {
-		List<StockDto> stocks =List.of(StockDto.builder().id(1).name("TESTSTOCK").currentPrice(12.44).lastUpdate(new Date()).build());
+		List<StockDto> stocks =List.of(StockDto.builder().id(1l).name("TESTSTOCK").currentPrice(BigDecimal.valueOf(12.44)).lastUpdate(LocalDateTime.now()).build());
 		when(stockService.getAll(Mockito.anyInt(),Mockito.anyInt(),Mockito.anyString(),Mockito.anyString())).thenReturn(stocks);
 		this.mockMvc.perform(get("/api/stocks"))
 		            .andDo(print())
@@ -52,7 +54,7 @@ public class StockAppControllerTest {
 
 	@Test
 	public void testgetOneStock() throws Exception {
-		StockDto stocks = StockDto.builder().id(1).name("TESTSTOCK").currentPrice(12.44).lastUpdate(new Date()).build();
+		StockDto stocks = StockDto.builder().id(1l).name("TESTSTOCK").currentPrice(BigDecimal.valueOf(12.44)).lastUpdate(LocalDateTime.now()).build();
 		when(stockService.getStock(Mockito.anyInt())).thenReturn(stocks);
 		this.mockMvc.perform(get("/api/stocks/1"))
 		            .andDo(print())
@@ -62,7 +64,7 @@ public class StockAppControllerTest {
 
 	@Test
 	public void testcreateStock() throws Exception {
-		StockDto stockDTO = StockDto.builder().name("TESTSTOCK").currentPrice(12.44).build();
+		StockDto stockDTO = StockDto.builder().id(1l).name("TESTSTOCK").currentPrice(BigDecimal.valueOf(12.44)).lastUpdate(LocalDateTime.now()).build();
 		when(stockService.createStock(Mockito.any())).thenReturn(stockDTO);
 		this.mockMvc.perform(post("/api/stocks").contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE)
 				     .content(objectMapper.writeValueAsString(stockDTO)))
@@ -73,7 +75,7 @@ public class StockAppControllerTest {
 	
 	@Test
 	public void testcreateInvalidStockName() throws Exception {
-		StockDto stockDTO = StockDto.builder().currentPrice(12.44).build();
+		StockDto stockDTO = StockDto.builder().id(1l).currentPrice(BigDecimal.valueOf(12.44)).lastUpdate(LocalDateTime.now()).build();
 		when(stockService.createStock(Mockito.any())).thenReturn(stockDTO);
 		this.mockMvc.perform(post("/api/stocks").contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE)
 				     .content(objectMapper.writeValueAsString(stockDTO)))
@@ -95,7 +97,7 @@ public class StockAppControllerTest {
 	
 	@Test
 	public void testupdateStock() throws Exception {
-		StockDto stockDTO = StockDto.builder().name("TESTSTOCK").currentPrice(12.44).build();
+		StockDto stockDTO = StockDto.builder().id(1l).name("TESTSTOCK").currentPrice(BigDecimal.valueOf(12.44)).lastUpdate(LocalDateTime.now()).build();
 		when(stockService.updateStock(Mockito.any(),Mockito.anyInt())).thenReturn(stockDTO);
 		this.mockMvc.perform(patch("/api/stocks/1").contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE)
 				     .content(objectMapper.writeValueAsString(stockDTO)))
@@ -109,7 +111,7 @@ public class StockAppControllerTest {
 	    org.mockito.BDDMockito.willDoNothing().given(stockService).deleteStock((Mockito.anyInt()));	
 		this.mockMvc.perform(delete("/api/stocks/1"))
 		            .andDo(print())
-		            .andExpect(status().isOk());
+		            .andExpect(status().isNoContent());
 		verify(stockService, times(1)).deleteStock(1);
 	}
 }

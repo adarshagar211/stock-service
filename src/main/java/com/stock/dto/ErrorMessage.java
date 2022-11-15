@@ -1,4 +1,4 @@
-package com.payconiq.dto;
+package com.stock.dto;
 
 import java.io.Serializable;
 

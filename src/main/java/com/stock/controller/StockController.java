@@ -1,11 +1,9 @@
-package com.payconiq.controller;
+package com.stock.controller;
 
+import java.net.URI;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.payconiq.dto.StockDto;
-import com.payconiq.service.StockService;
-
+import com.stock.dto.StockDto;
+import com.stock.service.StockService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -29,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/stocks")
 public class StockController {
 
+	public static final String STOCKS_URL = "/api/stocks/";
+	
 	@Autowired
 	private StockService stockService;
 
@@ -56,7 +54,7 @@ public class StockController {
 	public ResponseEntity<StockDto> createStock(@Valid @RequestBody StockDto stockDto) {
 		log.info("Creating Stock in DB with id {}", stockDto.getName());
 		StockDto stock = stockService.createStock(stockDto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(stock);
+		return ResponseEntity.created(URI.create(STOCKS_URL +stock.getId())).body(stock);
 	}
 
 	// Delete Stock Details for particular id
@@ -64,7 +62,7 @@ public class StockController {
 	public ResponseEntity<String> deleteStock(@PathVariable int id) {
 		log.info("Delete Stock present in DB with id {}", id);
 		stockService.deleteStock(id);
-		return ResponseEntity.ok("Stock deleted");
+		return ResponseEntity.noContent().build();
 	}
 
 	// Update Stock Details for particular id
@@ -76,3 +74,4 @@ public class StockController {
 	}
 
 }
+	

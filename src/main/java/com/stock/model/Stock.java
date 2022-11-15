@@ -1,8 +1,8 @@
-package com.payconiq.domain;
+package com.stock.model;
 
 import java.io.Serializable;
-import java.util.Date;
-
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Version;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,20 +28,16 @@ public class Stock implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id ;
-	
-	@Version
-	@Column(name = "VERSION")
-	private long version;
+	private Long id ;
 	
 	@Column(nullable = false , unique = true)
 	private String name ;
 	
 	@Column(nullable=false)
-	private Double currentPrice;
+	private BigDecimal currentPrice;
 	
 	@Column(nullable=false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastUpdate;
+	@Temporal(TemporalType.DATE)
+	private LocalDateTime lastUpdate;
 	
 }

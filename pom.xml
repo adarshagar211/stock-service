@@ -9,11 +9,11 @@
 		<version>2.7.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.payconiq.stocks</groupId>
-	<artifactId>stocks</artifactId>
+	<groupId>com.stock</groupId>
+	<artifactId>stock-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>stocks-api</name>
-	<description>Stocks API</description>
+	<name>stock-service</name>
+	<description>Stocks Service</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

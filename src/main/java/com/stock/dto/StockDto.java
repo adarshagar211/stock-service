@@ -1,8 +1,8 @@
-package com.payconiq.dto;
+package com.stock.dto;
 
 import java.io.Serializable;
-import java.util.Date;
-
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,7 +20,7 @@ public class StockDto implements Serializable{
 	private static final long serialVersionUID = -12354929128206418L;
 
 	@JsonProperty("id")
-	private Integer id ;
+	private Long id ;
 	
 	@JsonProperty("name")
 	@NotBlank(message = "Stock name cannot be empty or blank")
@@ -28,8 +28,8 @@ public class StockDto implements Serializable{
 	
 	@JsonProperty("currentPrice") 
 	@NotNull(message = "Stock price cannot be null")
-	private Double currentPrice;
+	private BigDecimal currentPrice;
 	
 	@JsonProperty("lastUpdate")
-	private Date lastUpdate;
+	private LocalDateTime lastUpdate;
 }

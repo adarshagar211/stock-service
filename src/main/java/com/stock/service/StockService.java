@@ -1,8 +1,9 @@
-package com.payconiq.service;
+package com.stock.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.payconiq.dto.StockDto;
+
+import com.stock.dto.StockDto;
 
 @Service
 public interface StockService {

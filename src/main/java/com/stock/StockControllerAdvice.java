@@ -1,4 +1,4 @@
-package com.payconiq;
+package com.stock;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.payconiq.dto.ErrorMessage;
+import com.stock.dto.ErrorMessage;
 
 import lombok.extern.slf4j.Slf4j;
 
